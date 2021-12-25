@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth.models import User
 
-from .serializers import CustomerSerializer
+from .serializers import CustomerSerializer, UserSerializer
 from .models import Customer
 
 # Create your views here.
