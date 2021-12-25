@@ -14,7 +14,7 @@ class CustomerAPIView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        serializer = CustomerSerializer(data=request.data)
+        serializer = CustomerSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
