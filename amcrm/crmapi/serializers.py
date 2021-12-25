@@ -16,10 +16,14 @@ class CustomerSerializer(serializers.ModelSerializer):
     creator = serializers.PrimaryKeyRelatedField(
             read_only=True,
     )
+    image = serializers.ImageField(
+            required=False,
+            default=None,
+    )
     def create(self, validated_data):
         validated_data['creator'] = self.context['request'].user
         customer = Customer.objects.create(name=validated_data['name'], surname=validated_data['surname'],
-                                           creator=validated_data['creator'])
+                                           creator=validated_data['creator'], image=validated_data['image'])
         return customer
     class Meta:
         model = Customer
