@@ -33,7 +33,7 @@ class CustomerAPIView(APIView):
 
     def patch(self, request, id=None):
         customer = Customer.objects.get(id=id)
-        serializer = CustomerSerializer(customer, data=request.data, partial=True)
+        serializer = CustomerSerializer(customer, data=request.data, partial=True, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response({"status": "success", "data": serializer.data})
