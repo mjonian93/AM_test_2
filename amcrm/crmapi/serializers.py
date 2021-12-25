@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from .models import Customer
 
+
 class CustomerSerializer(serializers.ModelSerializer):
     name = serializers.CharField(
             required=True,
@@ -16,18 +17,33 @@ class CustomerSerializer(serializers.ModelSerializer):
     creator = serializers.PrimaryKeyRelatedField(
             read_only=True,
     )
+
+    last_modifier = serializers.PrimaryKeyRelatedField(
+            read_only=True,
+    )
+
     image = serializers.ImageField(
             required=False,
             default=None,
     )
+
     def create(self, validated_data):
         validated_data['creator'] = self.context['request'].user
+        validated_data['last_modifier'] = self.context['request'].user
         customer = Customer.objects.create(name=validated_data['name'], surname=validated_data['surname'],
-                                           creator=validated_data['creator'], image=validated_data['image'])
+                                           creator=validated_data['creator'],
+                                           last_modifier=validated_data['last_modifier'], image=validated_data['image'])
         return customer
+
+    def update(self, instance, validated_data):
+        instance.last_modifier = self.context['request'].user
+        instance.save()
+        return instance
+
     class Meta:
         model = Customer
-        fields = ('id', 'name', 'surname', 'image', 'creator')
+        fields = ('id', 'name', 'surname', 'creator', 'last_modifier', 'image')
+
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -44,7 +60,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'], validated_data['email'],
-             validated_data['password'], is_staff=validated_data['is_staff'])
+                                        validated_data['password'], is_staff=validated_data['is_staff'])
         return user
 
     class Meta:
