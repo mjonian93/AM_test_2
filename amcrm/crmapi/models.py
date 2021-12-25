@@ -10,7 +10,6 @@ def get_image_path(instance, filename):
 class Customer(models.Model):
     name = models.CharField(max_length=60, blank=False)
     surname = models.CharField(max_length=60, blank=False)
-    id = models.AutoField(primary_key=True)
     image = models.ImageField(upload_to=get_image_path, blank=True, null=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
