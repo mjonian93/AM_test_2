@@ -2,7 +2,8 @@
 
 This is a simple CRM REST API application developed using Django Rest Framework
 for the second stage of The Agile Monkeys recruitment process. This API is designed to
-handle a database of Users and Customers and manage them using CRUD methods.
+handle a database of Users and Customers and manage them using CRUD methods. The authentication
+method implemented in this application is token-based authentication.
 
 This README file describes how to deploy this web application, the functionalities it
 implements, and how to use them
@@ -67,6 +68,8 @@ Customer = {
 This sections lists the available URLS in the API and describes how to perform CRUD
 operations for authentication and to manage both models.
 
+The CRUD examples shown below have been created using the [HTTPie](https://httpie.io/) tool.
+
 ## Urls
 
 These are the URLS available for CRUD operations in the deployed REST API:
@@ -80,10 +83,28 @@ http://0.0.0.0:8000/api/customers/<int:id> [GET, PATCH, DELETE]
 ```
 
 ## Authentication
+To authenticate in the application, a registered user credentials are required. If there is not any yet, create a 
+superuser (required to manage User model, see below). Send a POST request to the assigned endpoint:
+
+```
+http post http://0.0.0.0:8000/api/api-token-auth username=<username> password=<password>
+```
+This request will respond with a JSON Object similar to
+```
+{
+    "token": "<token>"
+}
+```
+Store the given token to use it as authentication mechanism in future requests.
 
 ## User Model CRUD
+To perform any operation is User model, it is mandatory that the authenticated user has
+administrator privileges (is_staff = True). So, authenticate with an admin user to get an
+authorized token. You can use a superuser to create Users, if no other user has been created yet.
 
 ### Create User
+You can create a User with the following command:
+
 
 ### Retrieve Users/Single User
 
