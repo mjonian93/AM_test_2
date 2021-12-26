@@ -31,7 +31,11 @@ docker run docker-amcrm-v1.0
 ```
 Check the container has been created with `docker ps`. You can run a terminal in the container
 and attach to it using `docker exec -it <container id> /bin/bash`. This is useful to create 
-superusers with `manage.py` script.
+superusers with `manage.py` script. To create a superuser, attach to a terminal
+and run the following command:
+```
+python manage.py createsuper
+```
 
 # API Models
 
@@ -60,7 +64,42 @@ Customer = {
 
 # Using the API
 
+This sections lists the available URLS in the API and describes how to perform CRUD
+operations for authentication and to manage both models.
 
+## Urls
+
+These are the URLS available for CRUD operations in the deployed REST API:
+
+```
+http://0.0.0.0:8000/api/api-token-auth/ [POST]
+http://0.0.0.0:8000/api/users/ [POST, GET]
+http://0.0.0.0:8000/api/users/<int:id> [GET, PATCH, DELETE]
+http://0.0.0.0:8000/api/customers/ [POST, GET]
+http://0.0.0.0:8000/api/customers/<int:id> [GET, PATCH, DELETE]
+```
+
+## Authentication
+
+## User Model CRUD
+
+### Create User
+
+### Retrieve Users/Single User
+
+### Patch User
+
+### Delete User
+
+## Customer Model CRUD
+
+### Create Customer
+
+### Retrieve Customers/Single Customer
+
+### Patch Customer
+
+### Delete Customer
 
 
 
