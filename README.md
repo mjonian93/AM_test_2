@@ -7,12 +7,13 @@ handle a database of Users and Customers and manage them using CRUD methods.
 This README file describes how to deploy this web application, the functionalities it
 implements, and how to use them
 
-#Download
+# Download
+
 You can download this repository using [Git](https://git-scm.com/) with the following command:
 
 >git clone https://github.com/mjonian93/AM_test_2
 
-#Deployment
+# Deployment
 
 This applications is dependant on some Python libraries specified in the requirements.txt
 file. To ease the deployment, a Dockerfile is included which automates app deployment.
