@@ -8,11 +8,11 @@ from .models import Customer
 class CustomerSerializer(serializers.ModelSerializer):
     name = serializers.CharField(
             required=True,
-            max_length=32
+            max_length=32,
     )
     surname = serializers.CharField(
             required=True,
-            max_length=32
+            max_length=32,
     )
     creator = serializers.PrimaryKeyRelatedField(
             read_only=True,
