@@ -32,6 +32,10 @@ class CustomerAPIView(APIView):
         return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
 
     def patch(self, request, id=None):
+        if id:
+            instance = Customer.objects.get(id=id)
+            instance.last_modifier = request.user.id
+            instance.save()
         customer = Customer.objects.get(id=id)
         serializer = CustomerSerializer(customer, data=request.data, partial=True, context={'request': request})
         if serializer.is_valid():

@@ -18,7 +18,7 @@ class CustomerSerializer(serializers.ModelSerializer):
             read_only=True,
     )
 
-    last_modifier = serializers.PrimaryKeyRelatedField(
+    last_modifier = serializers.IntegerField(
             read_only=True,
     )
 
@@ -29,16 +29,11 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['creator'] = self.context['request'].user
-        validated_data['last_modifier'] = self.context['request'].user
+        validated_data['last_modifier'] = self.context['request'].user.id
         customer = Customer.objects.create(name=validated_data['name'], surname=validated_data['surname'],
                                            creator=validated_data['creator'],
                                            last_modifier=validated_data['last_modifier'], image=validated_data['image'])
         return customer
-
-    def update(self, instance, validated_data):
-        instance.last_modifier = self.context['request'].user
-        instance.save()
-        return instance
 
     class Meta:
         model = Customer
