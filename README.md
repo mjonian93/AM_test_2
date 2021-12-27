@@ -28,7 +28,7 @@ docker build . -t docker-amcrm-v1.0
 ```
 Once the image has been created, you can start the container by executing:
 ```
-docker run docker-amcrm-v1.0
+docker run -p 8000:8000 docker-amcrm-v1.0
 ```
 Check the container has been created with `docker ps`. You can run a terminal in the container
 and attach to it using `docker exec -it <container id> /bin/bash`. This is useful to create 
@@ -104,23 +104,68 @@ authorized token. You can use a superuser to create Users, if no other user has 
 
 ### Create User
 You can create a User with the following command:
-
-
+```
+http POST http://0.0.0.0:8000/api/users/ 'Authorization: Token <token>' username=exampleuser email=exampleuser@example.com password=examplepassword
+```
 ### Retrieve Users/Single User
-
+To obtain a complete register of existing users, run the following command:
+```
+http GET http://0.0.0.0:8000/api/users/ 'Authorization: Token <token>'
+```
+To retrieve information about a single user, run the same 
+command but pointing to an indexed URL:
+```
+http GET http://0.0.0.0:8000/api/users/<int:userid> 'Authorization: Token <token>'
+```
 ### Patch User
-
+You can update user fields using the PATCH method, which allows to modify
+a Model partially, not being necessary to override every field:
+```
+http PATCH http://0.0.0.0:8000/api/users/<int:userid> 'Authorization: Token <token>' username=updateduser
+```
 ### Delete User
+To delete a user run the DELETE method using the `id` in the URL:
+```
+http DELETE http://0.0.0.0:8000/api/users/<int:userid> 'Authorization: Token <token>' 
+```
 
 ## Customer Model CRUD
+Similar to the previous, this section encompasses CRUD method examples
+but for Customer model, with the addition of image uploading example.
+Non-administrator users are able to run CRUD methods on this endpoint.
 
 ### Create Customer
+To create a customer, run the following command:
+```
+http POST http://0.0.0.0:8000/api/customers/ 'Authorization: Token <token>' name=examplename surname=examplesurname 
+```
 
 ### Retrieve Customers/Single Customer
-
+To obtain a complete register of existing customers, run the following command:
+```
+http GET http://0.0.0.0:8000/api/customers/ 'Authorization: Token <token>'
+```
+To retrieve information about a single customer, run the same 
+command but pointing to an indexed URL:
+```
+http GET http://0.0.0.0:8000/api/customers/<int:customerid> 'Authorization: Token <token>'
+```
 ### Patch Customer
+You can update customers fields with the PATCH command:
+```
+http PATCH http://0.0.0.0:8000/api/customers/<int:customerid> 'Authorization: Token <token>' name=updatedcustomer
+```
 
+### Image upload
+To upload an image to a User object, you can use the `--form` 
+flag in the request:
+```
+http --form PATCH http://0.0.0.0:8000/api/customers/<int:customerid> 'Authorization: Token <token>' image@/path/to/image
+```
 ### Delete Customer
-
+To delete a customer run the DELETE method using the `id` in the URL:
+```
+http DELETE http://0.0.0.0:8000/api/customers/<int:customerid> 'Authorization: Token <token>' 
+```
 
 
