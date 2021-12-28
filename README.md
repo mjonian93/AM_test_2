@@ -87,7 +87,7 @@ To authenticate in the application, a registered user credentials are required. 
 superuser (required to manage User model, see below). Send a POST request to the assigned endpoint:
 
 ```
-http post http://0.0.0.0:8000/api/api-token-auth username=<username> password=<password>
+http post http://0.0.0.0:8000/api/api-token-auth/ username=<username> password=<password>
 ```
 This request will respond with a JSON Object similar to
 ```
